@@ -9,3 +9,4 @@ dist/
 # ...MEN tillåt dist i frontend
 !frontend/dist/
 !frontend/dist/**
+
