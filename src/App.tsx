@@ -1,13 +1,11 @@
 export default function App() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '20vh' }}>
-      <img src="/logo.png" alt="Helsingbuss logo" style={{ height: '64px' }} />
-      <h1>Välkommen till Helsingbuss</h1>
-      <form style={{ display: 'inline-block', marginTop: '20px' }}>
-        <input placeholder="E-post" type="email" /><br />
-        <input placeholder="Lösenord" type="password" /><br />
-        <button type="submit">Logga in</button>
-      </form>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center">
+      <img src="/public/logo.png" alt="logo" className="h-20 mb-4" />
+      <h1 className="text-2xl font-bold mb-2">Välkommen till Helsingbuss</h1>
+      <input type="email" placeholder="E-post" className="border p-2 rounded mb-2" />
+      <input type="password" placeholder="Lösenord" className="border p-2 rounded mb-2" />
+      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Logga in</button>
     </div>
   )
 }
