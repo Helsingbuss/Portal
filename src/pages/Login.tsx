@@ -1,41 +1,36 @@
-import React from 'react'
+import React from "react";
 
-const Login = () => {
+export default function Login() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-sm bg-[#16475A] p-8 rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
         <div className="flex justify-center mb-6">
-          <img src="/logo.png" alt="Helsingbuss" className="w-48" />
+          <img src="/logo.png" alt="logo" className="h-12" />
         </div>
-        <h2 className="text-white text-center text-lg mb-6">
+        <h1 className="text-xl font-semibold text-center mb-6 text-gray-800">
           Välkommen till Helsingbuss
-        </h2>
+        </h1>
         <form className="space-y-4">
           <input
             type="email"
-            placeholder="E-post"
-            className="w-full px-4 py-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
+            placeholder="E-postadress"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="password"
             placeholder="Lösenord"
-            className="w-full px-4 py-2 rounded bg-gray-100 border border-gray-300 focus:outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="submit"
-            className="w-full py-2 bg-black text-white rounded hover:bg-gray-900"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
           >
-            Logga in Helsingbuss
+            Logga in
           </button>
         </form>
-        <p className="text-center text-sm text-white mt-4">
-          <a href="#" className="underline">
-            Glömt lösenord
-          </a>
-        </p>
       </div>
     </div>
-  )
+  );
 }
-
-export default Login
+// This code defines a simple login page for a web application using React.
+// It includes a form with fields for email and password, a submit button, and a logo at the top. 
