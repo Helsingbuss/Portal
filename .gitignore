@@ -1,6 +1,11 @@
-# .gitignore
 node_modules/
 *.log
 .env
 .DS_Store
-git add -f frontend/dist/
+
+# Ignorera alla dist-mappar...
+dist/
+
+# ...MEN tillåt dist i frontend
+!frontend/dist/
+!frontend/dist/**
