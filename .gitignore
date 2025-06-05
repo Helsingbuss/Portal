@@ -3,10 +3,13 @@ node_modules/
 .env
 .DS_Store
 
-# Ignorera alla dist-mappar...
+# Ignorera dist-mappar överallt ...
 dist/
 
-# ...MEN tillåt dist i frontend
+# ... MEN tillåt dist i roten
+!dist/
+!dist/**
+
+# (om du har frontend/dist också, lägg till)
 !frontend/dist/
 !frontend/dist/**
-
