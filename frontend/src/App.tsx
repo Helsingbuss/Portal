@@ -1,14 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./routes/Login";
+import Dashboard from "./routes/Dashboard"; // 👈 importera
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} /> {/* 👈 lägg till */}
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
-
-export default App;

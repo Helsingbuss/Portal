@@ -1,25 +1,42 @@
 // frontend/src/routes/Login.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (role: "admin" | "partner") => {
-    try {
-      const response = await axios.post("/login", {
-        username: email,
-        password: password,
-      }, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      });
-      localStorage.setItem("token", response.data.access_token);
-      navigate("/dashboard");
-    } catch (error) {
+  const handleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
       alert("Fel e-post eller lösenord");
+      return;
+    }
+
+    if (data.session) {
+      localStorage.setItem("token", data.session.access_token);
+      navigate("/dashboard");
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) {
+      alert("Fyll i din e-postadress först");
+      return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "http://localhost:5173/reset"
+    });
+    if (error) {
+      alert("Kunde inte skicka återställningsmail");
+    } else {
+      alert("Ett återställningsmail har skickats till din e-post");
     }
   };
 
@@ -41,21 +58,18 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-[380px] h-[46px] px-4 mb-4 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-white"
         />
-        <div className="flex justify-between w-full px-2 gap-4">
+        <div className="flex justify-center w-full px-2">
           <button
-            onClick={() => handleLogin("admin")}
-            className="flex-1 h-[46px] bg-black text-white rounded-md hover:opacity-90 font-semibold"
+            onClick={handleLogin}
+            className="w-full h-[46px] bg-black text-white rounded-md hover:opacity-90 font-semibold"
           >
             Logga in Helsingbuss
           </button>
-          <button
-            onClick={() => handleLogin("partner")}
-            className="flex-1 h-[46px] bg-gray-700 text-white rounded-md hover:opacity-90 font-semibold"
-          >
-            Logga in partner
-          </button>
         </div>
-        <div className="text-sm text-center mt-3 underline text-white cursor-pointer">
+        <div
+          onClick={handleResetPassword}
+          className="text-sm text-center mt-3 underline text-white cursor-pointer"
+        >
           Glömt lösenord
         </div>
       </div>
