@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="sv">
   <head>
@@ -11,10 +10,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-<script>
-  // This script is used to handle the case where the app is served from a subdirectory
-  // It ensures that the base URL is set correctly for routing
-  const base = document.createElement('base');
-  base.href = window.location.pathname;
-  document.head.appendChild(base);
-  // This is necessary for the app to work correctly with React Router
