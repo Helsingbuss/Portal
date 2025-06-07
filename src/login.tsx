@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js"
 import { useNavigate } from "react-router-dom"
 import logo from "/public/logo.png"
 
+
+
 const supabase = createClient(
   "https://gfjchjixpsfgxoprdsfx.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdmamNoaml4cHNmZ3hvcHJkc2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxMjYyMjMsImV4cCI6MjA2NDcwMjIyM30.MAl-fl15C6ua-CL3-76UOCwmWs0smNapTvMLmwvT8MQ"
