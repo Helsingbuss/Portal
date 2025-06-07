@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js"
 import logo from "/public/logo.png"
 
 const supabase = createClient(
-  "https://gfjchjixpsfgxoprdsfx.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdmamNoaml4cHNmZ3hvcHJkc2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxMjYyMjMsImV4cCI6MjA2NDcwMjIyM30.MAl-fl15C6ua-CL3-76UOCwmWs0smNapTvMLmwvT8MQ"
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 )
 
 export default function ResetPassword() {
@@ -24,36 +24,34 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5]">
-      <div className="flex flex-col items-center space-y-4">
-        <img src={logo} alt="logo" width={374} height={67} />
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5] px-4">
+      <div className="flex flex-col items-start w-full max-w-md space-y-4">
+        <img src={logo} alt="logo" className="w-[250px] mx-auto" />
 
         {!submitted ? (
-          <div className="w-[433px] space-y-2">
-            <label className="text-[#194C66] font-semibold text-[17px] block text-left">
-              E-postadress
-            </label>
+          <>
             <input
-              className="w-full h-[49px] rounded-[10px] shadow px-3"
+              className="w-full h-[52px] rounded-[10px] shadow px-4 text-base"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-postadress"
             />
 
-            {error && <div className="text-red-500 text-sm text-left">{error}</div>}
+            {error && <div className="text-red-500 text-sm">{error}</div>}
 
-            <div className="flex justify-between items-center mt-4">
+            <div className="flex justify-between w-full mt-4">
               <div></div>
               <button
                 onClick={handleResetPassword}
-                className="bg-[#194C66] text-white px-6 py-2 rounded-full font-semibold text-[15px]"
+                className="w-[160px] h-[52px] bg-[#194C66] text-white rounded-full font-semibold text-[15px]"
               >
                 Skicka
               </button>
             </div>
-          </div>
+          </>
         ) : (
-          <div className="text-[#194C66] font-semibold text-[15px] text-center">
+          <div className="text-[#194C66] font-semibold text-[15px] text-center w-full">
             En återställningslänk har skickats till din e-postadress.
           </div>
         )}
