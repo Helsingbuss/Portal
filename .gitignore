@@ -1,1 +1,17 @@
-echo "node_modules/\ndist/\n.env" > .gitignore
+echo "node_modules/\ndist/\n.env" > .gitignore# node_modules ska aldrig upp (installeras med npm install)
+node_modules/
+
+# miljövariabler
+.env
+
+# Vite-byggen (lokala artefakter)
+dist/
+
+# systemfiler
+.DS_Store
+.vscode/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
