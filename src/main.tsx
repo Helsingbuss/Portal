@@ -6,6 +6,7 @@ import ResetPassword from "./reset-password"
 import Dashboard from "./dashboard"
 import "./assets/index.css"
 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
