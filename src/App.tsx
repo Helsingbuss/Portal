@@ -1,18 +1,10 @@
-// src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import DashboardLayout from './components/layouts/DashboardLayout'
-import Dashboard from './pages/Dashboard'
-import NotFound from './pages/NotFound'
+import React from "react";
+import Login from "./pages/Login";
 
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}> 
-          <Route index element={<Dashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Router>
-  )
-}
+const App: React.FC = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
+    <Login />
+  </div>
+);
+
+export default App;

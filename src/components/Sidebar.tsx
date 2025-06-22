@@ -1,189 +1,116 @@
-import { useState } from "react"
-import { ChevronDown, ChevronUp, Menu } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { createClient } from "@supabase/supabase-js"
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  ChevronDown, ChevronUp, LayoutDashboard, FilePlus2, BusFront, FileText, Car, Users, ActivitySquare
+} from 'lucide-react';
+import logo from '../assets/logo_2.png';
+import profile from '../assets/profile.png';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+const Sidebar: React.FC = () => {
+  const { pathname } = useLocation();
 
-const sections = [
-  {
-    title: "Offert & Bokning",
-    icon: "📋",
-    items: [
-      { label: "Skapa ny förfrågan", path: "/skapa-forfragan" },
-      { label: "Hantera offertförfrågningar", path: "/hantera-offert" },
-      { label: "Hantera bokningsförfrågningar", path: "/hantera-bokning" },
-      { label: "Alla bokningar", path: "/alla-bokningar" },
-      { label: "Kommande körningar", path: "/kommande-korningar" },
-      { label: "Körorder (PDF)", path: "/kororder" },
-    ],
-  },
-  {
-    title: "Resor & Biljetter",
-    icon: "🎫",
-    items: [
-      { label: "Lista över resor", path: "/resor" },
-      { label: "Lägg till ny resa", path: "/lagg-till-resa" },
-      { label: "Sätt biljettpris", path: "/biljettpris" },
-      { label: "Boka biljett", path: "/boka-biljett" },
-      { label: "Passagerarlista", path: "/passagerarlista" },
-    ],
-  },
-  {
-    title: "Kunder & Personal",
-    icon: "👤",
-    items: [
-      { label: "Kundregister", path: "/kundregister" },
-      { label: "Lägg till kund", path: "/lagg-till-kund" },
-      { label: "Chaufförslista", path: "/chaufforslista" },
-      { label: "Lägg till chaufför", path: "/lagg-till-chauffor" },
-      { label: "Körschema", path: "/korschema" },
-    ],
-  },
-  {
-    title: "Fordon",
-    icon: "🚌",
-    items: [
-      { label: "Fordonsöversikt", path: "/fordon" },
-      { label: "Lägg till fordon", path: "/lagg-till-fordon" },
-      { label: "Service & besiktning", path: "/service-besiktning" },
-      { label: "Dokument & tillstånd", path: "/dokument" },
-    ],
-  },
-  {
-    title: "Ekonomi",
-    icon: "💰",
-    items: [
-      { label: "Fakturor", path: "/fakturor" },
-      { label: "Intäkter & utgifter", path: "/intakter" },
-      { label: "Priser & rabatter", path: "/priser-rabatter" },
-      { label: "Export / bokföring", path: "/export" },
-    ],
-  },
-  {
-    title: "System & Inställningar",
-    icon: "⚙️",
-    items: [
-      { label: "Resevillkor", path: "/resevillkor" },
-      { label: "E-postmallar", path: "/epostmallar" },
-      { label: "Tider & zoner", path: "/zoner" },
-      { label: "Logo / färger / tema", path: "/design" },
-    ],
-  },
-  {
-    title: "Överblick & Status",
-    icon: "📊",
-    items: [
-      { label: "Dagens körningar", path: "/dagens-korningar" },
-      { label: "Fordonsstatus", path: "/fordonsstatus" },
-      { label: "Chaufförsstatus", path: "/chaufforsstatus" },
-      { label: "Senaste aktiviteter", path: "/senaste" },
-    ],
-  },
-  {
-    title: "Hjälp & Support",
-    icon: "❓",
-    items: [
-      { label: "Manualer / FAQ", path: "/faq" },
-      { label: "Kontakta oss", path: "/kontakt" },
-      { label: "Rapportera fel", path: "/rapportera" },
-    ],
-  },
-]
+  const [openMenu, setOpenMenu] = useState<string | null>('offert');
 
-export default function Sidebar() {
-  const [open, setOpen] = useState<string | null>(null)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const toggleMenu = (key: string) => {
+    setOpenMenu((prev) => (prev === key ? null : key));
+  };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-    navigate("/")
-  }
+  const linkClass = (path: string) =>
+    `text-sm py-1.5 px-4 rounded-lg text-left transition font-normal ${
+      pathname === path ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-blue-50 text-blue-900'
+    }`;
 
-  const SidebarContent = (
-    <div className="flex flex-col justify-between h-full">
-      <div>
-        <div className="p-4 border-b border-white/10">
-          <img src="/vit_logo.png" alt="Helsingbuss logo" className="w-[180px]" />
-        </div>
-        <div className="px-4 py-4 space-y-4 font-[600] text-[15px] font-[Montserrat]">
-          {sections.map((section) => (
-            <div key={section.title}>
-              <button
-                onClick={() =>
-                  setOpen((prev) => (prev === section.title ? null : section.title))
-                }
-                className="flex justify-between items-center w-full py-2"
-              >
-                <span>{section.icon} {section.title}</span>
-                {open === section.title ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-              </button>
-              {open === section.title && (
-                <ul className="pl-4 text-sm space-y-1">
-                  {section.items.map((item) => (
-                    <li key={item.path}>
-                      <Link
-                        to={item.path}
-                        className={cn(
-                          "block py-1 text-gray-300 hover:text-white",
-                          location.pathname === item.path && "text-white font-bold"
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="p-4">
-        <button
-          onClick={handleLogout}
-          className="w-full bg-red-600 text-white py-2 rounded-full font-semibold hover:bg-red-700"
-        >
-          Logga ut
-        </button>
-      </div>
+  const menuSection = (title: string, key: string, icon: JSX.Element, children: JSX.Element[]) => (
+    <div>
+      <button
+        onClick={() => toggleMenu(key)}
+        className="w-full flex items-center justify-between px-4 py-2 rounded-lg hover:bg-blue-50 text-left font-medium whitespace-nowrap"
+      >
+        <span className="flex items-center gap-2 whitespace-nowrap">{icon} {title}</span>
+        {openMenu === key ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+      </button>
+      {openMenu === key && <div className="ml-6 flex flex-col gap-1">{children}</div>}
     </div>
-  )
+  );
 
   return (
-    <>
-      {/* Mobile menu toggle */}
-      <div className="md:hidden fixed top-4 left-4 z-50">
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-white bg-[#1c1f23] p-2 rounded"
-        >
-          <Menu />
-        </button>
+    <div className="h-screen w-80 bg-white text-blue-900 flex flex-col p-6 shadow-xl rounded-tr-3xl rounded-br-3xl overflow-y-auto">
+      <img src={logo} alt="Helsingbuss" className="h-10 mb-6" />
+
+      <div className="flex items-center gap-3 mb-6 px-2">
+        <div className="relative">
+          <img src={profile} alt="Profile" className="h-10 w-10 rounded-full object-cover border border-gray-300" />
+          <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-white rounded-full" />
+        </div>
+        <div className="text-sm leading-tight">
+          <div className="font-semibold">Helsingbuss</div>
+          <div className="text-gray-500 text-xs">Super Admin</div>
+        </div>
       </div>
 
-      {/* Sidebar for desktop */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-full w-72 bg-[#1c1f23] text-white shadow-lg overflow-y-auto">
-        {SidebarContent}
-      </aside>
+      <nav className="flex flex-col gap-2">
+        <Link to="/dashboard" className="flex items-center gap-2 py-2 px-4 rounded-lg font-medium hover:bg-blue-50 text-blue-900">
+          <LayoutDashboard size={18} /> Dashboard
+        </Link>
 
-      {/* Sidebar drawer for mobile */}
-      {mobileOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setMobileOpen(false)}>
-          <aside
-            className="absolute left-0 top-0 h-full w-72 bg-[#1c1f23] text-white shadow-lg overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {SidebarContent}
-          </aside>
-        </div>
-      )}
-    </>
-  )
-}
+        {menuSection('Offert & Bokning', 'offert', <FilePlus2 size={18} />, [
+          <Link to="/skapa-offert" className={linkClass('/skapa-offert')}>Skapa offert</Link>,
+          <Link to="/skapa-bokning" className={linkClass('/skapa-bokning')}>Skapa bokning</Link>,
+          <Link to="/offertforfragningar" className={linkClass('/offertforfragningar')}>Offertförfrågningar</Link>,
+          <Link to="/bokningar" className={linkClass('/bokningar')}>Bokningar</Link>,
+          <Link to="/prisberakning" className={linkClass('/prisberakning')}>Prisberäkning</Link>,
+          <Link to="/kommande-korningar" className={linkClass('/kommande-korningar')}>Kommande körningar</Link>,
+          <Link to="/skapa-kororder" className={linkClass('/skapa-kororder')}>Skapa körorder</Link>,
+        ])}
+
+        {menuSection('Resor & Biljetter', 'resor', <BusFront size={18} />, [
+          <Link to="/boka-biljett" className={linkClass('/boka-biljett')}>Boka biljett</Link>,
+          <Link to="/biljettlista" className={linkClass('/biljettlista')}>Biljettlista</Link>,
+          <Link to="/lista-resor" className={linkClass('/lista-resor')}>Lista över resor</Link>,
+          <Link to="/lagg-upp-resa" className={linkClass('/lagg-upp-resa')}>Lägg upp resa</Link>,
+          <Link to="/passagerarlista" className={linkClass('/passagerarlista')}>Passagerarlista</Link>,
+        ])}
+
+        {menuSection('Försäljning', 'sales', <FileText size={18} />, [
+          <Link to="/fakturor" className={linkClass('/fakturor')}>Fakturor</Link>,
+          <Link to="/skapa-faktura" className={linkClass('/skapa-faktura')}>Skapa faktura</Link>,
+          <Link to="/intakter-utgifter" className={linkClass('/intakter-utgifter')}>Intäkter & utgifter</Link>,
+          <Link to="/kundregister" className={linkClass('/kundregister')}>Kundregister</Link>,
+          <Link to="/skapa-kund" className={linkClass('/skapa-kund')}>Skapa kund</Link>,
+          <Link to="/meddelandehistorik" className={linkClass('/meddelandehistorik')}>Meddelandehistorik</Link>,
+          <Link to="/vara-tjanster" className={linkClass('/vara-tjanster')}>Våra tjänster (Artiklar)</Link>,
+        ])}
+
+        {menuSection('Fordonspark', 'fleet', <Car size={18} />, [
+          <Link to="/fordonsoversikt" className={linkClass('/fordonsoversikt')}>Fordonsöversikt</Link>,
+          <Link to="/lagg-till-fordon" className={linkClass('/lagg-till-fordon')}>Lägg till fordon</Link>,
+          <Link to="/service-besiktning" className={linkClass('/service-besiktning')}>Service & besiktning</Link>,
+          <Link to="/dokument-tillstand" className={linkClass('/dokument-tillstand')}>Dokument & tillstånd</Link>,
+          <Link to="/platskartor-saten" className={linkClass('/platskartor-saten')}>Platskartor (säten)</Link>,
+        ])}
+
+        {menuSection('Personal & Chaufförer', 'staff', <Users size={18} />, [
+          <Link to="/chaufforsregister" className={linkClass('/chaufforsregister')}>Chaufförsregister</Link>,
+          <Link to="/lagg-till-chauffor" className={linkClass('/lagg-till-chauffor')}>Lägg till chaufför</Link>,
+          <Link to="/bokningsagentregister" className={linkClass('/bokningsagentregister')}>Bokningsagentregister</Link>,
+          <Link to="/lagg-till-bokningsagent" className={linkClass('/lagg-till-bokningsagent')}>Lägg till bokningsagent</Link>,
+          <Link to="/korschema" className={linkClass('/korschema')}>Körschema</Link>,
+          <Link to="/behorigheter-roller" className={linkClass('/behorigheter-roller')}>Behörigheter & roller</Link>,
+          <Link to="/kontaktuppgifter" className={linkClass('/kontaktuppgifter')}>Kontaktuppgifter</Link>,
+          <Link to="/tidslogg-arbetstid" className={linkClass('/tidslogg-arbetstid')}>Tidslogg / Arbetstid</Link>,
+          <Link to="/ledighetskalender" className={linkClass('/ledighetskalender')}>Ledighetskalender</Link>,
+          <Link to="/avtal-dokument" className={linkClass('/avtal-dokument')}>Avtal & Dokument</Link>,
+        ])}
+
+        {menuSection('Status & Överblick', 'status', <ActivitySquare size={18} />, [
+          <Link to="/dagens-korningar" className={linkClass('/dagens-korningar')}>Dagens körningar</Link>,
+          <Link to="/chaufforsstatus" className={linkClass('/chaufforsstatus')}>Chaufförsstatus</Link>,
+          <Link to="/fordonsstatus" className={linkClass('/fordonsstatus')}>Fordonsstatus</Link>,
+          <Link to="/senaste-aktiviteter" className={linkClass('/senaste-aktiviteter')}>Senaste aktiviteter</Link>,
+        ])}
+      </nav>
+    </div>
+  );
+};
+
+export default Sidebar;
