@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   if (error) return res.status(500).json({ success: false, error: error.message });
 
   // Skapa länk till offertdetaljer
-  const link = `https://dindomän.se/offertdetaljer/${nextOffertId}`;
+  const link = `https://helsingbuss.se/offertdetaljer/${nextOffertId}`;
 
   // Skicka mail till kund
   await resend.emails.send({
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
       25443 Helsingborg<br/>
       <a href="https://helsingbuss.se">helsingbuss.se</a></p>
       <br/>
-      <a href="https://dindomän.se/offert">Fler resor på gång? Klicka här för att komma till vår offertförfrågan.</a>
+      <a href="https://helsingbuss.se/offert">Fler resor på gång? Klicka här för att komma till vår offertförfrågan.</a>
     `
   });
 
