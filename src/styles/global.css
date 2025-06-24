@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Egen stil kan läggas nedan */
+body {
+  background-color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
