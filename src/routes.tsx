@@ -45,6 +45,8 @@ import Fordonsstatus from './pages/Fordonsstatus';
 import SenasteAktiviteter from './pages/SenasteAktiviteter';
 import Fakturor from './pages/Fakturor';
 import OffertDetaljer from './pages/OffertDetaljer';
+import OffertFormPublic from './pages/OffertFormPublic';
+import OffertForm from './components/OffertForm';
 
 
 const AppRoutes = () => {
@@ -101,6 +103,8 @@ const AppRoutes = () => {
           <Route path="/fordonsstatus" element={<Fordonsstatus />} />
           <Route path="/senaste-aktiviteter" element={<SenasteAktiviteter />} />
           <Route path="/offert/:offertId" element={<OffertDetaljer />} />
+          <Route path="/offert" element={<OffertFormPublic />} />
+          <Route path="/offertform" element={<OffertForm />} />
           </Routes>
       </div>
     </div>

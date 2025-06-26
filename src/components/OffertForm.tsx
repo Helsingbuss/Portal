@@ -1,4 +1,4 @@
-// /src/components/OffertForm.tsx
+// src/components/OffertForm.tsx
 import React, { useState } from 'react';
 
 const defaultForm = {
@@ -19,25 +19,23 @@ const OffertForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [offertId, setOffertId] = useState('');
 
-  // Uppdaterar form
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Byter steg
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     setStep(2);
   };
 
-  // Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/send-offert', {
+      const res = await fetch('/api/offert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -45,6 +43,7 @@ const OffertForm: React.FC = () => {
       const data = await res.json();
       if (data.success) {
         setSent(true);
+        setOffertId(data.offert_id || '');
         setForm(defaultForm);
       } else {
         setError('Något gick fel! Försök igen senare.');
@@ -59,7 +58,12 @@ const OffertForm: React.FC = () => {
     return (
       <div className="bg-white rounded-xl shadow p-6 text-center">
         <h2 className="text-xl font-bold mb-2">Tack för din offertförfrågan!</h2>
-        <p>Du kommer få ett mail med mer information.</p>
+        <p>
+          Du kommer få ett mail med mer information.<br />
+          {offertId && (
+            <span>Offertnummer: <b>{offertId}</b></span>
+          )}
+        </p>
       </div>
     );
   }
@@ -118,12 +122,7 @@ const OffertForm: React.FC = () => {
             <div className="flex justify-between">
               <button type="button" className="bg-gray-200 px-4 py-2 rounded" onClick={() => setStep(1)}>Tillbaka</button>
               <button type="submit" disabled={loading} className="bg-blue-600 text-white px-6 py-2 rounded">
-                {loading ? (
-                  <svg className="animate-spin h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                ) : "Skicka offert"}
+                {loading ? "Skickar..." : "Skicka offert"}
               </button>
             </div>
             {error && <div className="text-red-600 mt-2">{error}</div>}
